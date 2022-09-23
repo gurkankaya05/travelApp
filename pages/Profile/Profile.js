@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { ImageBackground, SafeAreaView, Text, View, Image, TouchableOpacity,Alert, ScrollView} from 'react-native'
 import styles from './Profile.styles';
 import safari from '../../assets/images/safari.jpeg'
@@ -6,28 +6,58 @@ import saul from '../../assets/images/saul.png'
 import kim from  '../../assets/images/ki.jpeg'
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../../assets/colors/colors';
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 
 const Profile = () => {
+    const [hasGalleryPermission , setHasGalleryPermission] = useState(null)  
+    const [image,setImage] = useState(null);
+    useEffect(() =>{
+        (async () =>{
+            const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            setHasGalleryPermission(galleryStatus.status === 'granted');
 
+        }) ();
+    },[])
+    
+    const pickImage = async() => {
+        let result  = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+            allowsEditing:true,
+             aspect:[4,3],
+             quality:1
+               })
+console.log(result)
+if(!result.cancelled){
+    setImage(result.uri);
+}   
+    }
+    if(hasGalleryPermission === false) {
+        return <Text>No access to internal storage</Text>
+    }
+    
     return (
         <View style={styles.container} >
             <ImageBackground source={safari} style={styles.imageWrapper} imageStyle={styles.imageStyle}>
             </ImageBackground>
             <View style={styles.profileImageWrapper}>
-                <Image style={styles.imageItem} source={kim} />
+                <Image style={styles.imageItem} source={{uri:image}} />
             </View>
 
             <View style={styles.aboutWrapper}>
                 <View style={styles.addWrapper}>
-                <TouchableOpacity onPress={() => Alert.alert("Travel App" , "Image Upload section")}>
+                <TouchableOpacity onPress={() => pickImage()}>
                     <Ionicons name="ios-add-outline" size={24} color={colors.white} />
                     </TouchableOpacity>
 
                 </View>
                 <TouchableOpacity onPress={() => Alert.alert("Travel App","Add Friend")} style={styles.editWrapper} >
                     <Text style={styles.editText}>Add Friend</Text>
+
                 </TouchableOpacity>
+               
                 <TouchableOpacity onPress={() => Alert.alert("Travel App","Edit About")} style={styles.editWrapper}>
                     <Text style={styles.editText}>Edit About</Text>
                 </TouchableOpacity>

@@ -27,7 +27,7 @@ const Home = ({navigation}) =>{
     //!   Discovered FlatList 
       const renderDiscoveredItem = ({item}) => {
         return (
-            <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Details", {
+            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate("Details", {
                item:item
             })}>
                 <ImageBackground
@@ -48,7 +48,7 @@ const Home = ({navigation}) =>{
  const renderActivitesItem = ({item}) =>{
     return(
     <View style={[styles.activitiyItemWrapper , {marginLeft:item.id === 'activities-1' ?  20 : 0}]}>
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.5}>
     <Image source={item.image} style={styles.activityItemImage} />
     </TouchableOpacity>
     <Text style={styles.activityItemText}>{item.title}</Text>    
@@ -60,7 +60,7 @@ const Home = ({navigation}) =>{
  //! Learn More FlatList
  const renderlearnMoreItem = ({item} ) =>{
     return(
-        <TouchableOpacity > 
+        <TouchableOpacity activeOpacity={0.8} > 
       <ImageBackground style={[styles.learnMoreItem, {marginLeft:item.id === 'learnMore-1' ? 8 : 0}]} imageStyle={styles.learnMoreImage} source={item.image}>
         <Text style={styles.learnMoreItemText}>{item.title}</Text>
       </ImageBackground>
