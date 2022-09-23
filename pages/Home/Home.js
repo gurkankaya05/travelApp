@@ -48,7 +48,7 @@ const Home = ({navigation}) =>{
  const renderActivitesItem = ({item}) =>{
     return(
     <View style={[styles.activitiyItemWrapper , {marginLeft:item.id === 'activities-1' ?  20 : 0}]}>
-        <TouchableOpacity onPress={() => navigation.navigate('Details', {item})}>
+        <TouchableOpacity>
     <Image source={item.image} style={styles.activityItemImage} />
     </TouchableOpacity>
     <Text style={styles.activityItemText}>{item.title}</Text>    
@@ -60,7 +60,7 @@ const Home = ({navigation}) =>{
  //! Learn More FlatList
  const renderlearnMoreItem = ({item} ) =>{
     return(
-        <TouchableOpacity onPress={() => navigation.navigate('Details', {item})}> 
+        <TouchableOpacity > 
       <ImageBackground style={[styles.learnMoreItem, {marginLeft:item.id === 'learnMore-1' ? 8 : 0}]} imageStyle={styles.learnMoreImage} source={item.image}>
         <Text style={styles.learnMoreItemText}>{item.title}</Text>
       </ImageBackground>
@@ -74,8 +74,10 @@ const Home = ({navigation}) =>{
             {/* {Header} */}
             <SafeAreaView>
                 <View style={styles.menuWrapper}>
-                <Feather name="menu" size={32} color="black" />    
+                <Feather name="menu" size={32} color="black" />   
+                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                 <Image source={profile} style={styles.profileImage} />                 
+                </TouchableOpacity>
 
                 </View>
             </SafeAreaView>
