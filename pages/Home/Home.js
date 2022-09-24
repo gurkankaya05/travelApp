@@ -60,7 +60,7 @@ const Home = ({navigation}) =>{
  //! Learn More FlatList
  const renderlearnMoreItem = ({item} ) =>{
     return(
-        <TouchableOpacity activeOpacity={0.8} > 
+        <TouchableOpacity activeOpacity={0.8}> 
       <ImageBackground style={[styles.learnMoreItem, {marginLeft:item.id === 'learnMore-1' ? 8 : 0}]} imageStyle={styles.learnMoreImage} source={item.image}>
         <Text style={styles.learnMoreItemText}>{item.title}</Text>
       </ImageBackground>
@@ -75,7 +75,7 @@ const Home = ({navigation}) =>{
             <SafeAreaView>
                 <View style={styles.menuWrapper}>
                 <Feather name="menu" size={32} color="black" />   
-                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <TouchableOpacity  onPress={() => navigation.navigate("Profile")}>
                 <Image source={profile} style={styles.profileImage} />                 
                 </TouchableOpacity>
 

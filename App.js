@@ -11,7 +11,7 @@ import colors from './assets/colors/colors'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
 import Details from './pages/Details/Details'
-
+import Img from './pages/img';
 
 export default function App() {
   
@@ -41,6 +41,7 @@ export default function App() {
         }}/>
         <Tab.Screen name="Liked" component={Liked} options={{headerShown:false, tabBarIcon:({color}) => <Ionicons name='heart-outline' size={32} color={color}/>}}/>
         <Tab.Screen name="Profile" component={Profile} options={{headerShown:false, tabBarIcon: ({color}) => <AntDesign name="user" size={32} color={color} />}}/>
+        
       </Tab.Navigator>
       
     )
@@ -50,6 +51,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{headerShown:false,}}>
         <Stack.Screen name="TabStack" component={TabNavigator}/>
         <Stack.Screen name="Details" component={Details}/>
+        <Stack.Screen name="Img" component={Img}/>
           </Stack.Navigator>
       </NavigationContainer>
   )

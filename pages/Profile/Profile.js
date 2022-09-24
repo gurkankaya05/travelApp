@@ -7,35 +7,43 @@ import kim from  '../../assets/images/ki.jpeg'
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../../assets/colors/colors';
 import * as ImagePicker from 'expo-image-picker';
+import {firebase} from '../../constant/config'
+ 
 
 
 
-
-const Profile = () => {
-    const [hasGalleryPermission , setHasGalleryPermission] = useState(null)  
-    const [image,setImage] = useState(null);
-    useEffect(() =>{
-        (async () =>{
-            const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            setHasGalleryPermission(galleryStatus.status === 'granted');
-
-        }) ();
-    },[])
+const Profile = ({navigation}) => {
+     const[uploadingImage,setUploadingImage] = useState(null);
     
-    const pickImage = async() => {
-        let result  = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+    const [image,setImage] = useState({});
+
+    const pickImage = async() =>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.All,
             allowsEditing:true,
-             aspect:[4,3],
-             quality:1
-               })
-console.log(result)
-if(!result.cancelled){
-    setImage(result.uri);
-}   
+            aspect:[4,3],
+            quality:1,            
+        })
+        const source = {uri : result.uri};
+        console.log(source);
+        setImage(source);     
     }
-    if(hasGalleryPermission === false) {
-        return <Text>No access to internal storage</Text>
+    
+    const uploadImage = async() =>{
+        setUploadingImage(true);
+        const response= await fetch(image.uri);
+        const blob =  await response.blob();
+        const filename =  image.uri.substring(image.uri.lastIndexOf('/')+1);
+        let ref = firebase.storage().ref().child(filename).put(blob);
+
+            try {
+                await ref;
+            } catch (e) {
+                console.log(e)
+            }
+            setUploadingImage(false)
+            Alert.alert("Gürkan 👀" , "Photo Upload Successful!");
+            setUploadingImage(null);
     }
     
     return (
@@ -43,7 +51,7 @@ if(!result.cancelled){
             <ImageBackground source={safari} style={styles.imageWrapper} imageStyle={styles.imageStyle}>
             </ImageBackground>
             <View style={styles.profileImageWrapper}>
-                <Image style={styles.imageItem} source={{uri:image}} />
+                <Image style={styles.imageItem} defaultSource={kim} source={{uri:image.uri}}  />
             </View>
 
             <View style={styles.aboutWrapper}>
@@ -62,6 +70,10 @@ if(!result.cancelled){
                     <Text style={styles.editText}>Edit About</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity onPress={uploadImage}>
+                    <Text>Upload Image</Text>
+                </TouchableOpacity>
+        
 
 
             </View>
